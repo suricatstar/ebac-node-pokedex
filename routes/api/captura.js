@@ -13,7 +13,7 @@ router.post('/captura/:id', (req, res) => {
             Pokemon.create(pokemon).then((pokemonCapturado) => {
                 res.json({
                     capturado: true,
-                    pid: pokemonCapturado.id
+                    id: pokemonCapturado.id
                 });
             }).catch(e => res.status(500).json({ erro: e}));
         }

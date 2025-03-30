@@ -14,6 +14,7 @@ const buscaInfoPokemon = (PokeId) => {
             const altura = data.height;
             const imagem = data.sprites.other['official-artwork'].front_default;
             const ataques = data.abilities.map(a => a.ability.name).join(", ");
+            const jogos = data.game_indices.map(a => a.version.name);
     
             const estatisticas = {};
     
@@ -29,7 +30,8 @@ const buscaInfoPokemon = (PokeId) => {
                 altura,
                 imagem,
                 ataques,
-                estatisticas
+                estatisticas,
+                jogos,
             })
     
         }).catch((e) => reject(e));

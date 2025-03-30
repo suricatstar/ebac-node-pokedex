@@ -1,6 +1,4 @@
-const { NOMEM } = require('dns');
 const {Schema} = require('mongoose');
-const { type } = require('os');
 
 const Pokemon = new Schema({
     id: {
@@ -38,7 +36,11 @@ const Pokemon = new Schema({
     estatisticas:{
         type : Object,
         required: true,
-    }
+    },
+    jogos:{
+        type: String,
+        required: true,
+    },
 }); 
 
 module.exports = Pokemon;

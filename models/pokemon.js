@@ -38,7 +38,7 @@ const Pokemon = new Schema({
         required: true,
     },
     jogos:{
-        type: String,
+        type: [String],
         required: true,
     },
 }); 

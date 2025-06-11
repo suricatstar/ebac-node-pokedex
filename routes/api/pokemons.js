@@ -26,11 +26,11 @@ router.get('/', async (req, res) => {
 
         if (req.query.nomeComecaCom){
             options.nome = {
-                $regex: filtros.nomeComecaCom + '.*';
+                $regex: filtros.nomeComecaCom + '.*'
             }
         }
 
-        const pokemons = await Pokemon.find();
+        const pokemons = await Pokemon.find(options);
         res.status(200).json({
             sucesso: true,
             pokemons: pokemons,
@@ -40,6 +40,45 @@ router.get('/', async (req, res) => {
             sucesso: false,
             erro: e,
         });
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    try {
+        const pokemon = await Pokemon.findOne({_id:req.params.id});
+        
+        res.json({
+            sucesso: true,
+            pokemon: pokemon,
+        });
+    }
+     catch (e) {
+        res.status(404).json({
+            sucesso: false,
+            erro: 'Pokemon não encontrado',
+        });
+    }
+});
+
+router.patch('/:id', async (req, res) => {
+    try{
+        const pokemon = await Pokemon.findOne({_id:req.params.id});
+        Object.keys(req.body).forEach((atributo) => {
+            pokemon[atributo] = req.body[atributo];
+        });
+
+        await pokemon.save();
+
+        res.json({
+            sucess: true,
+            pokemon: pokemon,
+        });
+
+    }catch (e) {
+        res.status(422).json({
+            sucesso: false,
+            erro: e,
+        })
     }
 });
 

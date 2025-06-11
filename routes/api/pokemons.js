@@ -30,6 +30,22 @@ router.get('/', async (req, res) => {
             }
         }
 
+        // Filtro por peso mínimo
+        if (req.query.pesoMinimo) {
+            options.peso = { 
+                ...options.peso,
+                $gte: parseInt(filtros.pesoMinimo) 
+            };
+        }
+
+        // Filtro por altura mínima
+        if (req.query.alturaMinima) {
+            options.altura = { 
+                ...options.altura,
+                $gte: parseInt(filtros.alturaMinima) 
+            };
+        }
+
         const pokemons = await Pokemon.find(options);
         res.status(200).json({
             sucesso: true,
@@ -79,6 +95,31 @@ router.patch('/:id', async (req, res) => {
             sucesso: false,
             erro: e,
         })
+    }
+});
+
+// Nova rota de deleção
+router.delete('/:id', async (req, res) => {
+    try {
+        const pokemon = await Pokemon.findByIdAndDelete(req.params.id);
+        
+        if (!pokemon) {
+            return res.status(404).json({
+                sucesso: false,
+                erro: 'Pokemon não encontrado',
+            });
+        }
+
+        res.json({
+            sucesso: true,
+            mensagem: 'Pokemon removido da pokedex com sucesso',
+            pokemon: pokemon,
+        });
+    } catch (e) {
+        res.status(500).json({
+            sucesso: false,
+            erro: e,
+        });
     }
 });
 

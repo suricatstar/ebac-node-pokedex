@@ -6,7 +6,12 @@ const router = express.Router();
 
 router.post('/',async (req, res) => {
     try{
-        const pokemon = await Pokemon.create(req.body);
+        const pokemon = await Pokemon.create({
+            ...req.body,
+            ...{
+                capturadoPor: req.usuario._id, // Associa o Pokémon ao usuário autenticado
+            }
+        });
         res.status(201).json({
             sucesso: true,
             pokemon: pokemon,
@@ -29,6 +34,8 @@ router.get('/', async (req, res) => {
                 $regex: filtros.nomeComecaCom + '.*'
             }
         }
+
+        options.capturadoPor = req.usuario._id; // Filtra apenas os Pokémon capturados pelo usuário autenticado
 
         // Filtro por peso mínimo
         if (req.query.pesoMinimo) {
@@ -61,7 +68,10 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const pokemon = await Pokemon.findOne({_id:req.params.id});
+        const pokemon = await Pokemon.findOne({
+            _id:req.params.id,
+            capturadoPor: req.usuario._id // Garante que o Pokémon pertence ao usuário autenticado
+        });
         
         res.json({
             sucesso: true,
@@ -78,7 +88,10 @@ router.get('/:id', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
     try{
-        const pokemon = await Pokemon.findOne({_id:req.params.id});
+        const pokemon = await Pokemon.findOne({
+            _id:req.params.id,
+            capturadoPor: req.usuario._id // Garante que o Pokémon pertence ao usuário autenticado
+        });
         Object.keys(req.body).forEach((atributo) => {
             pokemon[atributo] = req.body[atributo];
         });

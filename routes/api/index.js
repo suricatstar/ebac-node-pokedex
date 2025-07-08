@@ -13,7 +13,7 @@ const statusRouter = require('./status');
 const pokemonsRouter = require('./pokemons');
 const autenticacaoRouter = require('./autenticacao');
 
-const { checaAutenticacao } = require('../middleware/checa-autenticacao');
+const { checaAutenticacao } = require('./middleware/checa-autenticacao');
 
 const router = express.Router();
 

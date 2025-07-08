@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { Usuario } = require('../../models');
@@ -17,7 +17,8 @@ router.post('/login', async (req, res) => {
             res.json({
                 sucesso: true,
                 jwt: jwt.sign({
-                    email: usuario.email,   
+                    email: usuario.email,
+                    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24) // Expira em 24 horas   
                 },process.env.SEGREDO_JWT)
             })
         }

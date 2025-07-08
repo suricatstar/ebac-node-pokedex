@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const { Usuario } = require('../../../models/usuario');
+const { Usuario } = require('../../../models');
 
 const checaAutenticacao = async (req, res, next) => {
     try{

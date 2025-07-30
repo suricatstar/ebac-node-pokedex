@@ -2,6 +2,10 @@ require("dotenv").config();
 
 const express = require('express');
 
+const passport = require("passport");
+
+const session = require("express-session");
+
 const path = require("path");
 
 const expressLayouts = require("express-ejs-layouts");
@@ -13,6 +17,14 @@ const batalhaRouter = require("./routes/batalha");
 const apiRouter = require('./routes/api')
 
 const app = express();
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+}))
+
+app.use(passport.initialize());
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

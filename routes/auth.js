@@ -2,6 +2,8 @@ const express = require("express");
 const Passport  = require("passport");
 
 const { checaAutenticado, checaNaoAutenticado } = require("./middlewares/checa-autenticacao");
+const passport = require("passport");
+const { get } = require("../models/pokemon");
 
 const router = express.Router();
 
@@ -24,5 +26,14 @@ router.post("/", Passport.authenticate('local',{
     successRedirect: "/",
     failureRedirect: "/auth?erroNoLogin=true",
 }))
+
+router.get("/google", checaNaoAutenticado, passport.authenticate('google'))
+
+router.get('/oauth2/redirect/google', checaNaoAutenticado, passport.authenticate('google', {
+    failureRedirect: '/auth',
+    failureMessage: true
+}), (_req, res) => {
+    res.redirect('/');
+});
 
 module.exports = router;

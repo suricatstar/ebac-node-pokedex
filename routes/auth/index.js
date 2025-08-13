@@ -1,1 +1,2 @@
-require('./local')
+require('./local');
+require('./google');

@@ -3,7 +3,6 @@ const Passport  = require("passport");
 
 const { checaAutenticado, checaNaoAutenticado } = require("./middlewares/checa-autenticacao");
 const passport = require("passport");
-const { get } = require("../models/pokemon");
 
 const router = express.Router();
 

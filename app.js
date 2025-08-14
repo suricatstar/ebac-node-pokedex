@@ -20,10 +20,9 @@ const batalhaRouter = require("./routes/batalha");
 const autenticacaoRouter = require("./routes/auth");
 const apiRouter = require("./routes/api");
 const homeRouter = require("./routes/home");
+const { checaAutenticado } = require("./routes/middlewares/checa-autenticacao");
 
-const {
-  checaAutenticacao,
-} = require("./routes/api/middleware/checa-autenticacao");
+
 
 const app = express();
 
@@ -39,6 +38,7 @@ app.use(
 );
 
 app.use(passport.initialize());
+app.use(passport.session());
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -46,10 +46,10 @@ app.use(expressLayouts);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/pokemons", checaAutenticacao, pokemonsRouter);
-app.use("/batalha", checaAutenticacao, batalhaRouter);
+app.use("/pokemons", checaAutenticado, pokemonsRouter);
+app.use("/batalha", checaAutenticado, batalhaRouter);
 app.use("/auth", autenticacaoRouter);
-app.use("/", checaAutenticacao, homeRouter);
+app.use("/", checaAutenticado, homeRouter);
 
 app.use("/api", apiRouter);
 

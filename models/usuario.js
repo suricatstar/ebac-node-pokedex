@@ -26,7 +26,12 @@ const Usuario = new Schema({
     googleUsuarioId:{
         type: String,
         required: false,
+    },
+    githubUsuarioId:{
+        type: String,
+        required: false,
     }
+
 });
 
 Usuario.index({
